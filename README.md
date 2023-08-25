@@ -1,7 +1,7 @@
 # astroblox-questionaire
 
 Inventory Slots:
-Left Click to Drag, Move, Merge, and Place outside.
+Left Click to Drag, Move, Merge, Switch, and Place outside.
 Right Click to toggle lock.
 
 World Objects:
