@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 public class GameMode : MonoBehaviour
 {
@@ -24,6 +24,28 @@ public class GameMode : MonoBehaviour
     {
         Ready = true;
         EvtReady.Invoke();
+
+        Invoke("AddDebugWorldItems", 0.1f);
+    }
+
+    private void AddDebugWorldItems()
+    {
+        IReadOnlyList<Item> items = ItemDatabase.Global.Items;
+
+        for (int i = 0; items.Count > i; i++)
+        {
+            int instanceCount = UnityEngine.Random.Range(1, 10);
+
+            for (int j = 0; j < instanceCount; j++)
+            {
+                int amount = UnityEngine.Random.Range(1, Mathf.RoundToInt(items[i].MaxStack * 2.0f));
+
+                Item newItem = Instantiate(items[i], Vector3.zero, Quaternion.identity);
+                newItem.GetComponent<ItemStack>().Setup(amount);
+
+                EvtSpawnedItem.Invoke(newItem);
+            }
+        }
     }
 
     public void SpawnItem(Item item, int stackAmount)
